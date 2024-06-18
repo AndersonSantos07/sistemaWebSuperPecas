@@ -27,7 +27,7 @@ public class CarrosService {
     public void criarNovoCarro(CarroCriarDTO carroDTO) {
 
         this.validarCarroCriarDTO(carroDTO);
-        this.validarModeloOuCodigoUnicoExisteBaseDados(carroDTO.getModelo(), carroDTO.getCodigoUnico());
+        this.verificarModeloOuCodigoUnicoBaseDados(carroDTO.getModelo(), carroDTO.getCodigoUnico());
 
         repository.save(this.criarModelCarro(carroDTO));
     }
@@ -35,7 +35,7 @@ public class CarrosService {
     public void atualizarCarro(CarroAtualizarDTO carroDTO){
 
         this.validarCarroAtualizarDTO(carroDTO);
-        this.validarModeloOuCodigoUnicoExisteBaseDados(carroDTO.getModelo(), carroDTO.getCodigoUnico());
+        this.verificarModeloOuCodigoUnicoBaseDados(carroDTO.getModelo(), carroDTO.getCodigoUnico());
         this.verificarCarroExisteBaseDados(carroDTO.getId());
 
         this.repository.save(this.criarModelCarro(carroDTO));
@@ -75,7 +75,7 @@ public class CarrosService {
         }
     }
 
-    public void validarModeloOuCodigoUnicoExisteBaseDados(String modelo, String codigoUnico){
+    public void verificarModeloOuCodigoUnicoBaseDados(String modelo, String codigoUnico){
 
         List<CarrosModel> carroBaseDados = repository.findByNomeModeloOrCodigoUnico(modelo, codigoUnico);
 
