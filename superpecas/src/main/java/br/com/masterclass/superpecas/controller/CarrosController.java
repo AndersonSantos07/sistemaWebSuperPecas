@@ -1,6 +1,7 @@
 package br.com.masterclass.superpecas.controller;
 
 import br.com.masterclass.superpecas.dto.CarroAtualizarDTO;
+import br.com.masterclass.superpecas.dto.CarroCriarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +17,21 @@ public class CarrosController {
     CarrosService service;
 
     @PostMapping
-    public ResponseEntity<String> criarNovoCarro(@RequestBody CarroAtualizarDTO carroDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.atualizarCarro(carroDTO));
+    public ResponseEntity<String> criarNovoCarro(@RequestBody CarroCriarDTO carroDTO){
+        this.service.criarNovoCarro(carroDTO);
+        return  ResponseEntity.status(HttpStatus.CREATED).body("Carro gravado com sucesso!");
     }
 
     @PutMapping
     public ResponseEntity<String> atualizarCarro(@RequestBody CarroAtualizarDTO carroDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarCarro(carroDTO));
+        this.service.atualizarCarro(carroDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Carro Atualizado com Sucesso!");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> excluirCarro(@PathVariable int id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.excluirCarro(id));
+        this.service.excluirCarro(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Carro Excluído com Sucesso! ");
     }
 
 }

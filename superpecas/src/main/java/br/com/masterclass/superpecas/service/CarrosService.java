@@ -2,6 +2,9 @@ package br.com.masterclass.superpecas.service;
 
 import br.com.masterclass.superpecas.dto.CarroAtualizarDTO;
 import br.com.masterclass.superpecas.dto.CarroCriarDTO;
+import br.com.masterclass.superpecas.exceptions.AtributosNulosException;
+import br.com.masterclass.superpecas.exceptions.EntidadeNaoEncontradaBaseDadosException;
+import br.com.masterclass.superpecas.exceptions.PecasAssociadasException;
 import br.com.masterclass.superpecas.model.CarrosModel;
 import br.com.masterclass.superpecas.model.PecasModel;
 import org.modelmapper.ModelMapper;
@@ -21,53 +24,88 @@ public class CarrosService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public String criarNovoCarro(CarroCriarDTO carroDTO) {
+    public void criarNovoCarro(CarroCriarDTO carroDTO) {
 
-        List<CarrosModel> carroBaseDados = repository.findByNomeModeloOrCodigoUnico(carroDTO.getModelo(), carroDTO.getCodigoUnico());
-        if(!carroBaseDados.isEmpty()){
-            return "Carro já existe na base de dados! ";
-        }
+        this.validarCarroCriarDTO(carroDTO);
+        this.validarModeloOuCodigoUnicoExisteBaseDados(carroDTO.getModelo(), carroDTO.getCodigoUnico());
 
-        CarrosModel carro = modelMapper.map(carroDTO, CarrosModel.class);
-        repository.save(carro);
-        return "Carro gravado com sucesso! ";
+        repository.save(this.criarModelCarro(carroDTO));
     }
 
-    public String atualizarCarro(CarroAtualizarDTO carroDTO){
+    public void atualizarCarro(CarroAtualizarDTO carroDTO){
 
-        List<CarrosModel> carroBaseDados = repository.findByNomeModeloOrCodigoUnico(carroDTO.getModelo(), carroDTO.getCodigoUnico());
-        if (!carroBaseDados.isEmpty()) {
-            return "Carro já existe na base de dados!";
-        }
+        this.validarCarroAtualizarDTO(carroDTO);
+        this.validarModeloOuCodigoUnicoExisteBaseDados(carroDTO.getModelo(), carroDTO.getCodigoUnico());
+        this.verificarCarroExisteBaseDados(carroDTO.getId());
 
-        Optional<CarrosModel> carro = repository.findById(carroDTO.getId());
-
-        if(carro.isEmpty()){
-            return "Carro não existe na base de dados!";
-        }
-
-        CarrosModel carroAtualizado = modelMapper.map(carroDTO, CarrosModel.class);
-        repository.save(carroAtualizado);
-
-        return "Carro atualizado com sucesso!";
+        this.repository.save(this.criarModelCarro(carroDTO));
     }
 
-    public String excluirCarro(int id) {
+    public void excluirCarro(int id) {
 
-        Optional<CarrosModel> carro = repository.findById(id);
+        this.verificarCarroExisteBaseDados(id);
 
-        if(carro.isEmpty()){
-            return "Carro não existe na base de dados!";
-        }
+        Optional<CarrosModel> carro = this.repository.findById(id);
 
-        List<PecasModel> pecas = repository.pecasAssociadas(carro.get().getCarroID());
+        this.verificarPecasAssociadas(carro.get().getCarroID());
 
-        if(!pecas.isEmpty()){
-            return "Existem peças associadas ao carro!";
-        }
-
-        repository.deleteById(id);
-
-        return "Carro Excluído com sucesso! ";
+        this.repository.deleteById(id);
     }
+
+
+    public void validarCarroCriarDTO(CarroCriarDTO carroDTO){
+
+        if(carroDTO == null){
+            throw new AtributosNulosException();
+        }
+
+        if(carroDTO.getFabricante() == null || carroDTO.getModelo() == null || carroDTO.getCodigoUnico() == null){
+            throw new AtributosNulosException();
+        }
+    }
+
+    public void validarCarroAtualizarDTO(CarroAtualizarDTO carroDTO){
+
+        if(carroDTO == null){
+            throw new AtributosNulosException();
+        }
+
+        if(carroDTO.getId() == 0 || carroDTO.getCodigoUnico() == null || carroDTO.getFabricante() == null || carroDTO.getModelo() == null){
+            throw new AtributosNulosException();
+        }
+    }
+
+    public void validarModeloOuCodigoUnicoExisteBaseDados(String modelo, String codigoUnico){
+
+        List<CarrosModel> carroBaseDados = repository.findByNomeModeloOrCodigoUnico(modelo, codigoUnico);
+
+        if(!carroBaseDados.isEmpty()) {
+            throw new EntidadeNaoEncontradaBaseDadosException("Carro já existe na base de dados!");
+        }
+    }
+
+    public void verificarCarroExisteBaseDados(int id){
+
+        Optional<CarrosModel> carroBaseDados = this.repository.findById(id);
+
+        if(carroBaseDados.isEmpty()){
+            throw new EntidadeNaoEncontradaBaseDadosException("Carro não encontrado na base de dados! ");
+        }
+
+    }
+
+    public void verificarPecasAssociadas(int id){
+
+        List<PecasModel> pecasAssociadas = this.repository.pecasAssociadas(id);
+
+        if(!pecasAssociadas.isEmpty()){
+            throw new PecasAssociadasException();
+        }
+    }
+
+    public <T> CarrosModel criarModelCarro(T carroDTO){
+         CarrosModel carro = modelMapper.map(carroDTO, CarrosModel.class);
+         return carro;
+    }
+
 }

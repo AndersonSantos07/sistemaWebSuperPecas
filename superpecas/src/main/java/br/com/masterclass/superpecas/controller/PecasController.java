@@ -2,7 +2,6 @@ package br.com.masterclass.superpecas.controller;
 
 import br.com.masterclass.superpecas.dto.PecaAtualizarDTO;
 import br.com.masterclass.superpecas.dto.PecaCriarDTO;
-import br.com.masterclass.superpecas.repository.PecasRepository;
 import br.com.masterclass.superpecas.service.PecasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,17 +18,19 @@ public class PecasController {
 
     @PostMapping
     public ResponseEntity<String> criarPeca(@RequestBody PecaCriarDTO pecaDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(service.criarPeca(pecaDTO));
+        this.service.criarPeca(pecaDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Peça gravada com sucesso! ");
     }
 
     @PutMapping
     public ResponseEntity<String> atualizarPeca(@RequestBody PecaAtualizarDTO pecaDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarPeca(pecaDTO));
+        service.atualizarPeca(pecaDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Peça atualizada com sucesso! ");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> excluirPeca(@PathVariable int id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.excluirPeca(id));
-
+        service.excluirPeca(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Peça excluída com sucesso! ");
     }
 }

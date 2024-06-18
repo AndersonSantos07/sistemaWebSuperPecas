@@ -74,6 +74,7 @@ public class CarrosModel implements Serializable {
         this.pecas = pecas;
     }
 
+    @Override
     public String toString(){
         return "id: " + this.getCarroID() + " " +
                 "modelo: " + this.getNomeModelo() + " " +

@@ -39,6 +39,7 @@ public class CarroAtualizarDTO {
         this.codigoUnico = codigoUnico;
     }
 
+    @Override
     public String toString(){
         return "modelo: " + this.getModelo() + " " +
                 "fabricante: " + this.getFabricante() + " " +
