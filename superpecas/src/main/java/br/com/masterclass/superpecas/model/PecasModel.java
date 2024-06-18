@@ -1,4 +1,4 @@
-package model;
+package br.com.masterclass.superpecas.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -14,22 +14,23 @@ public class PecasModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int PecaId;
+    @Column(name = "PecaId")
+    private int pecaId;
 
-    @Column(nullable = false)
-    private String Nome;
+    @Column(name ="Nome",nullable = false)
+    private String nome;
 
-    @Column(nullable = false)
-    private String Descricao;
+    @Column(name = "Descricao",nullable = false)
+    private String descricao;
 
-    @Column(nullable = false, unique = true)
-    private String NumeroSerie;
+    @Column(name = "NumeroSerie",nullable = false, unique = true)
+    private String numeroSerie;
 
-    @Column(nullable = false)
-    private String Fabricante;
+    @Column(name = "Fabricante",nullable = false)
+    private String fabricante;
 
-    @Column(nullable = false)
-    private String ModeloCarro;
+    @Column(name = "ModeloCarro",nullable = false)
+    private String modeloCarro;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,58 +38,58 @@ public class PecasModel implements Serializable {
     private CarrosModel carro;
 
     public int getPecaId() {
-        return PecaId;
+        return pecaId;
     }
 
     public void setPecaId(int pecaId) {
-        PecaId = pecaId;
+        this.pecaId = pecaId;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     public String getDescricao() {
-        return Descricao;
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
-        Descricao = descricao;
-    }
-
-    public String getFabricante() {
-        return Fabricante;
-    }
-
-    public void setFabricante(String fabricante) {
-        Fabricante = fabricante;
-    }
-
-    public String getModeloCarro() {
-        return ModeloCarro;
-    }
-
-    public void setModeloCarro(String modeloCarro) {
-        ModeloCarro = modeloCarro;
+        this.descricao = descricao;
     }
 
     public String getNumeroSerie() {
-        return NumeroSerie;
+        return numeroSerie;
     }
 
     public void setNumeroSerie(String numeroSerie) {
-        NumeroSerie = numeroSerie;
+        this.numeroSerie = numeroSerie;
+    }
+
+    public String getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
+
+    public String getModeloCarro() {
+        return modeloCarro;
+    }
+
+    public void setModeloCarro(String modeloCarro) {
+        this.modeloCarro = modeloCarro;
     }
 
     public CarrosModel getCarro() {
         return carro;
     }
 
-    public void setCarros(CarrosModel carro) {
+    public void setCarro(CarrosModel carro) {
         this.carro = carro;
     }
 }

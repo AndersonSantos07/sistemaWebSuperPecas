@@ -1,4 +1,4 @@
-package model;
+package br.com.masterclass.superpecas.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -17,51 +17,53 @@ public class CarrosModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int CarroID;
+    @Column(name = "CarroID")
+    private int carroID;
 
-    @Column(nullable = false)
-    private String NomeModelo;
+    @Column(name = "NomeModelo",nullable = false)
+    private String nomeModelo;
 
-    @Column(nullable = false)
-    private String Fabricante;
+    @Column(name = "Fabricante",nullable = false)
+    private String fabricante;
 
-    @Column(nullable = false, unique = true)
-    private String CodigoUnico;
+    @Column(name ="CodigoUnico", nullable = false, unique = true)
+    private String codigoUnico;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "carros", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "carro", fetch = FetchType.LAZY)
     private Set<PecasModel> pecas = new HashSet<>();
 
+
     public int getCarroID() {
-        return CarroID;
+        return carroID;
     }
 
     public void setCarroID(int carroID) {
-        CarroID = carroID;
+        this.carroID = carroID;
     }
 
     public String getNomeModelo() {
-        return NomeModelo;
+        return nomeModelo;
     }
 
     public void setNomeModelo(String nomeModelo) {
-        NomeModelo = nomeModelo;
+        this.nomeModelo = nomeModelo;
     }
 
     public String getFabricante() {
-        return Fabricante;
+        return fabricante;
     }
 
     public void setFabricante(String fabricante) {
-        Fabricante = fabricante;
+        this.fabricante = fabricante;
     }
 
     public String getCodigoUnico() {
-        return CodigoUnico;
+        return codigoUnico;
     }
 
     public void setCodigoUnico(String codigoUnico) {
-        CodigoUnico = codigoUnico;
+        this.codigoUnico = codigoUnico;
     }
 
     public Set<PecasModel> getPecas() {
@@ -70,5 +72,12 @@ public class CarrosModel implements Serializable {
 
     public void setPecas(Set<PecasModel> pecas) {
         this.pecas = pecas;
+    }
+
+    public String toString(){
+        return "id: " + this.getCarroID() + " " +
+                "modelo: " + this.getNomeModelo() + " " +
+                "fabricante: " + this.getFabricante() + " " +
+                "codigo único: " + this.getCodigoUnico();
     }
 }
