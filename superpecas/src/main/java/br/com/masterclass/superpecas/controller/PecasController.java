@@ -19,19 +19,16 @@ public class PecasController {
 
     @PostMapping
     public ResponseEntity<String> criarPeca(@RequestBody PecaCriarDTO pecaDTO){
-
         return ResponseEntity.status(HttpStatus.OK).body(service.criarPeca(pecaDTO));
     }
 
     @PutMapping
     public ResponseEntity<String> atualizarPeca(@RequestBody PecaAtualizarDTO pecaDTO){
-
         return ResponseEntity.status(HttpStatus.OK).body(service.atualizarPeca(pecaDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> excluirPeca(@PathVariable int id){
-
         return ResponseEntity.status(HttpStatus.OK).body(service.excluirPeca(id));
 
     }

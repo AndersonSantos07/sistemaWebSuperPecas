@@ -39,7 +39,7 @@ public class PecasService {
 
         Optional<PecasModel> pecaBaseDados = repository.findById(pecaDTO.getCarroID());
 
-        if(pecaBaseDados.isEmpty()){
+        if(pecaBaseDados == null){
             return "Peça não existe na base de dados!";
         }
 
