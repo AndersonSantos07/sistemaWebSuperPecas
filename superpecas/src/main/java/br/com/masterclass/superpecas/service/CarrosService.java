@@ -1,19 +1,23 @@
 package br.com.masterclass.superpecas.service;
 
-import br.com.masterclass.superpecas.dto.CarroAtualizarDTO;
-import br.com.masterclass.superpecas.dto.CarroCriarDTO;
+import br.com.masterclass.superpecas.dto.*;
 import br.com.masterclass.superpecas.exceptions.AtributosNulosException;
+import br.com.masterclass.superpecas.exceptions.EntidadeEncontradaBaseDadosException;
 import br.com.masterclass.superpecas.exceptions.EntidadeNaoEncontradaBaseDadosException;
 import br.com.masterclass.superpecas.exceptions.PecasAssociadasException;
 import br.com.masterclass.superpecas.model.CarrosModel;
 import br.com.masterclass.superpecas.model.PecasModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import br.com.masterclass.superpecas.repository.CarrosRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarrosService {
@@ -108,4 +112,55 @@ public class CarrosService {
          return carro;
     }
 
+    public List<FabricanteTotalCarrosDTO> listarTopFabricantes() {
+
+        List<Object[]> fabricantes = repository.listarTop10Fabricantes();
+
+        if(fabricantes.isEmpty()){
+            throw new EntidadeEncontradaBaseDadosException("Fabricantes não encontrados na base de dados!");
+        }
+
+        return fabricantes.stream().map(fabricante -> new FabricanteTotalCarrosDTO((String) fabricante[0], ((Number) fabricante[1]).longValue())).collect(Collectors.toList());
+    }
+
+    public List<CarrosPecasDTO> listarTop10CarrosComMaisPecas() {
+
+        List<Object[]> carrosPecas = repository.listarTop10CarrosComMaisPecas();
+
+        return carrosPecas.stream().map(carro -> new CarrosPecasDTO((String) carro[0], ((Number) carro[1]).longValue())).collect(Collectors.toList());
+
+    }
+
+    public List<CarrosModel> listarTodos() {
+        return repository.findAll();
+    }
+
+    public Page<CarrosModel> listarTodosPaginados(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable);
+    }
+
+    public Page<CarrosModel> listarTodosPaginadosPorTermo(int page, int size, String termo) {
+        Pageable pageable = PageRequest.of(page,size);
+        return repository.findAllByTermo(termo, pageable);
+    }
+
+    public CarrosModel procurarPorId(int id) {
+
+        Optional<CarrosModel> carro = repository.findById(id);
+
+        if(carro.isEmpty()){
+             throw new EntidadeNaoEncontradaBaseDadosException("Carro não encontrado na base de dados! ");
+        }
+
+        return carro.get();
+    }
+
+    public List<FabricanteDTO> listarTodosFabricantes() {
+
+        List<Object[]> fabricantes = repository.listarTodosFabricantes();
+
+        return fabricantes.stream().map(fabricante -> new FabricanteDTO((String) fabricante[0])).collect(Collectors.toList());
+
+    }
 }
