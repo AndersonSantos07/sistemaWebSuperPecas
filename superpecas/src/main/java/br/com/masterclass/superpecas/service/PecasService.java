@@ -8,6 +8,9 @@ import br.com.masterclass.superpecas.exceptions.EntidadeNaoEncontradaBaseDadosEx
 import br.com.masterclass.superpecas.model.PecasModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import br.com.masterclass.superpecas.repository.PecasRepository;
 
@@ -104,5 +107,32 @@ public class PecasService {
         }
 
 
+    }
+
+    public PecasModel buscarPorId(int id) {
+
+        Optional<PecasModel> peca = repository.findById(id);
+
+        if(peca.isEmpty()){
+            throw new EntidadeNaoEncontradaBaseDadosException("Peça não encontrada na base de dados!");
+        }
+
+        return peca.get();
+
+
+    }
+
+    public Page<PecasModel> listarTodosPaginado(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page,size);
+
+        return repository.findAll(pageable);
+    }
+
+    public Page<PecasModel> listarTodosPaginadoPorTermo(int page, int size, String termo) {
+
+        Pageable pageable = PageRequest.of(page,size);
+
+        return repository.listarTodosPaginadoPorTermo(termo, pageable);
     }
 }

@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "78728a66-b215-4492-b48b-ec7912a5ecff",
+		"name": "Carros e Peças",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30345939"
+	},
+	"item": [
+		{
+			"name": "carros",
+			"item": [
+				{
+					"name": "Excluir Carro",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/carro/1231",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carro",
+								"1231"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar carro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"modelo\": \"teste3\",\r\n    \"fabricante\": \"teste3\",\r\n    \"codigoUnico\": \"teste3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/carro",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Carro",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1231,\r\n    \"modelo\": \"teste2\",\r\n    \"fabricante\": \"teste1 - atualizado\",\r\n    \"codigoUnico\": \"teste1 - atualizado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/carro",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaTop10CarroComMaisPecas",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "listaTop10Fabricantes",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "listaTodosPaginado",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "listaTodosPaginadoPorTermo",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "porID",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "listaTodosFabricantes",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pecas",
+			"item": [
+				{
+					"name": "Criar Peça",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"teste1\",\r\n    \"desc\": \"teste1\",\r\n    \"numSerie\" : \"teste1\",\r\n    \"fabricante\": \"teste1\",\r\n    \"modeloCarro\": \"teste1\",\r\n    \"carroId\": 1232\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/peca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"peca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Peça",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1231,\r\n    \"nome\": \"TESTE1 - atuali\",\r\n    \"desc\":\"TESTE1 - atualizado\",\r\n    \"numSerie\": \"TESTE1 - atuali\",\r\n    \"fabricante\": \"TESTE1 - atualizado\",\r\n    \"modeloCarro\": \"TESTE1 - atualizado\",\r\n    \"carroID\":1232\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/peca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"peca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Peça",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/peca/1235",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"peca",
+								"1235"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaTodosPaginado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/peca/listaTodosPaginado",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"peca",
+								"listaTodosPaginado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaTodosPaginadoPorTermo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/peca/listaTodosPaginado/filtro",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"peca",
+								"listaTodosPaginado",
+								"filtro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "porID",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
